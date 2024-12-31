@@ -7,6 +7,7 @@ const store = reactive({
   number1: 0,
   number2: 0,
   operation: 'add',
+  errorMessage: '',
 });
 
 function calculateResult() {
@@ -20,7 +21,7 @@ function calculateResult() {
     case 'divide':
       return store.number2 !== 0
         ? (store.number1 / store.number2).toFixed(2)
-        : 'Erro: Divisão por zero';
+        : (store.errorMessage = 'Não é possível dividir por zero');
     default:
       return 0;
   }
@@ -41,7 +42,8 @@ function calculateResult() {
     />
 
     <div class="text-center">
-      <h2>Resultado: {{ calculateResult() }}</h2>
+      <h2 v-if="!errorMessage">Resultado: {{ calculateResult() }}</h2>
+      <h2 v-else class="text-danger">{{ errorMessage }}</h2>
     </div>
   </div>
 </template>
